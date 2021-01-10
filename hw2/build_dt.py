@@ -163,10 +163,10 @@ class _DecisionTreeNode:
 
 class DecisionTree:
     def __init__(self, max_depth: int, min_gain: float) -> None:
-        self.max_depth: int = max_depth
-        self.min_gain: float = min_gain
-        self.root: _DecisionTreeNode = _DecisionTreeNode(depth=0)
-        self.label_set: set = set()
+        self.max_depth = max_depth
+        self.min_gain = min_gain
+        self.root = _DecisionTreeNode(depth=0)
+        self.label_set = set()
 
     def train(self, x: List[Dict[str, int]], y: List[str]) -> None:
         start_time = time.time()
