@@ -158,10 +158,8 @@ def sigmoid_prime(z):
 
 def tanh(z):
     """The tanh function."""
-    ## TODO: Add your code here.
-    return z 
+    return np.tanh(z)
 
 def tanh_prime(z):
     """Derivative of the sigmoid function."""
-    ## TODO: Add your code here.
-    return z
+    return 1 - tanh(z) * tanh(z)

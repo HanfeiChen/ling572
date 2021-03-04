@@ -18,8 +18,8 @@ def vectorized_result(i, size):
 def load_data(categories, max_features):
     """Load data from 20newsgroups corpus from given list of categories.
     Return Tfidf vectorized train and test data."""
-    train = fetch_20newsgroups(subset='train', categories=categories)
-    test = fetch_20newsgroups(subset='test', categories=categories)
+    train = fetch_20newsgroups(data_home='/tmp/sklearn', subset='train', categories=categories)
+    test = fetch_20newsgroups(data_home='/tmp/sklearn', subset='test', categories=categories)
    
     # The train labels need to be vectorized for training 
     train_labels = [vectorized_result(y, len(categories)) for y in train.target]
