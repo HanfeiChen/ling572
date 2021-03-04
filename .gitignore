@@ -1,3 +1,6 @@
 check_hw*.sh
 submit-file-list
 *.tar.gz
+
+__pycache__/
+*.pyc
