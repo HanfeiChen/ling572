@@ -18,7 +18,7 @@ def set_seed(seed):
     torch.manual_seed(seed)
 
 
-def train_one_epoch(model, iterator, criterion, optimizer, padding_index):
+def train_one_epoch(model, iterator, criterion, optimizer, padding_index, l2_regularization = False):
     """ Train a model for one epoch.
 
     Arguments:
@@ -49,10 +49,12 @@ def train_one_epoch(model, iterator, criterion, optimizer, padding_index):
         logits = model(batch_text, padding_index)
         loss = criterion(logits, batch.label)
 
-        # TODO: implement L2 loss here
+        # DONE: implement L2 loss here
         # Note: model.parameters() returns an iterator over the parameters
         # (which are tensors) of the model
         L2 = 0.0
+        if l2_regularization:
+            L2 = sum(torch.norm(param) ** 2 for param in model.parameters())
         regularized_loss = loss + 1e-4*L2
 
         # backprop regularized loss and update parameters
@@ -118,6 +120,8 @@ def main(args):
     text = torchtext.data.Field()
     label = torchtext.data.LabelField(dtype = torch.long)
 
+    print("Loading dataset...")
+
     train_data, test_data = torchtext.datasets.IMDB.splits(
         text, label, root=args.data_dir)
 
@@ -145,12 +149,14 @@ def main(args):
     best_epoch = None
     padding_index = args.padding_index
     # main training loop
+    dev_loss_history = []
     for epoch in range(args.num_epochs):
         # train for one epoch
         epoch_train_loss = train_one_epoch(
-            model, train_iterator, criterion, optim, padding_index)
+            model, train_iterator, criterion, optim, padding_index, l2_regularization=args.L2)
         # evaluate on dev set
         dev_loss = evaluate(model, dev_iterator, criterion, padding_index)
+        dev_loss_history.append(dev_loss)
         print(f"{epoch} \t {epoch_train_loss:.5f} \t {dev_loss:.5f}")
 
         if dev_loss < best_loss:
@@ -162,7 +168,8 @@ def main(args):
             # TODO: implement early stopping here.
             # Note: you may need to touch some code outside of this if
             # statement.
-            pass
+            if dev_loss > dev_loss_history[-args.patience]:
+                break
 
     print(f"Evaluating best model (from epoch {best_epoch}) on test set.")
     test_loss = evaluate(best_model, test_iterator, criterion, padding_index)

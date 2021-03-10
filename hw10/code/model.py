@@ -23,9 +23,9 @@ class LinearLayer(nn.Module):
         Returns:
             a tensor of shape (batch_size, output_size)
         """
-        # TODO: implement the forward pass of a linear layer.
+        # DONE: implement the forward pass of a linear layer.
         # You will want to use torch.matmul, as well as tensor addition
-        raise NotImplementedError
+        return (inputs @ self.weight) + self.bias
 
 
 class DeepAveragingNetwork(nn.Module):

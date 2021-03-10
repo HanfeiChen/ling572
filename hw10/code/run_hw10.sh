@@ -10,11 +10,13 @@ cd .
 #python main.py --num_epochs 6 --data_dir /dropbox/20-21/572/hw10/code/data/
 
 # q1
+echo "Running Q1..."
 python main.py --num_epochs 6 --data_dir /dropbox/20-21/572/hw10/code/data/ > q1.out
 
 # q2
+echo "Running Q2..."
 python main.py --num_epochs 6 --data_dir /dropbox/20-21/572/hw10/code/data/ --L2 > q2.out
 
 # q3
+echo "Running Q3..."
 python main.py --num_epochs 12 --data_dir /dropbox/20-21/572/hw10/code/data/ --patience 3 --L2 > q3.out
-
